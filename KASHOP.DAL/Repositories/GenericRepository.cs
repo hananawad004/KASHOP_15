@@ -2,31 +2,36 @@
 using KASHOP.DAL.Models;
 namespace KASHOP.DAL.Repositories
 {
-    public class GenericRepository <T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        ApplicationDbContext context = new ApplicationDbContext();
+         private readonly ApplicationDbContext _context;
+
+        public GenericRepository(ApplicationDbContext context)
+        {
+            this._context = context;
+        }
 
         public void Create(T entity)
         {
-            context.Set<T>().Add(entity);
-            context.SaveChanges();
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
 
         public void Update(T entity)
         {
-            context.Set<T>().Update(entity);
-            context.SaveChanges();
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
         }
 
         public void Remove(T entity)
         {
-            context.Set<T>().Remove(entity);
-            context.SaveChanges();
+            _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
         }
 
         public List<T> Get()
         {
-            return context.Set<T>().ToList();
+            return _context.Set<T>().ToList();
         }
     }
 }
