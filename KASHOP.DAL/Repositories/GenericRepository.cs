@@ -1,6 +1,7 @@
 ﻿using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 namespace KASHOP.DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -30,6 +31,27 @@ namespace KASHOP.DAL.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<T>> GetAsync(CancellationToken cancellationToken = default) => await _context.Set<T>().ToListAsync(cancellationToken);
+        public async Task<List<T>> GetAsync(Expression<Func<T, bool>> filter=null,List<Expression<Func<T,Object>>>? includes=null
+            ,bool tracked=false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+            if(includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.ToListAsync(cancellationToken);
+        }
+           
     }
 }
