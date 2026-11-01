@@ -1,5 +1,6 @@
 ﻿using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 namespace KASHOP.DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -11,27 +12,24 @@ namespace KASHOP.DAL.Repositories
             this._context = context;
         }
 
-        public void Create(T entity)
+        public async Task CreateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _context.Set<T>().Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _context.Set<T>().Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public void Remove(T entity)
+        public async Task RemoveAsync(T entity, CancellationToken cancellationToken = default)
         {
             _context.Set<T>().Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public List<T> Get()
-        {
-            return _context.Set<T>().ToList();
-        }
+        public async Task<List<T>> GetAsync(CancellationToken cancellationToken = default) => await _context.Set<T>().ToListAsync(cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using KASHOP.DAL.Data;
+﻿using KASHOP.BLL;
+using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -10,24 +11,24 @@ namespace KASHOP.PL.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly IGenericRepository<Category> _categoryRepository;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(IGenericRepository<Category> categoryRepository)
+        public CategoriesController(ICategoryService categoryService)
         {
-            this._categoryRepository = categoryRepository;
+            this._categoryService = categoryService;
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _categoryRepository.Get();
+            var categories = await _categoryService.GetAllAsync();
             return Ok(categories);
         }
 
         //[HttpGet("{id}")]
-        //public IActionResult GetbyId(int id)
+        //public async Task<IActionResult> GetbyId(int id)
         //{
-        //    var category = _categoryRepository.Get().FirstOrDefault(c => c.Id ==  id);
+        //    var category = (await _categoryRepository.GetAsync()).FirstOrDefault(c => c.Id ==  id);
         //    if (category == null)
         //    {
         //        return NotFound();
@@ -35,11 +36,12 @@ namespace KASHOP.PL.Controllers
         //    return Ok(category);
         //}
 
-        [HttpPost]
-        public IActionResult Create(Category category)
-        {
-            _categoryRepository.Create(category);
-            return Ok(category);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Create(Category category)
+        //{
+        //    await _categoryService.CreateAsync(category);
+        //    return Ok(category);
+        //}
     }
+
 }

@@ -6,10 +6,10 @@ namespace KASHOP.DAL.Repositories
 {
     public interface IGenericRepository <T> where T : class
     {
-        void Create(T entity);
-        void Update(T entity);
-        void Remove(T entity);
-        List<T> Get();
+        Task CreateAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task RemoveAsync(T entity);
+        Task<List<T>> GetAsync();
 
     }
 }
