@@ -57,10 +57,7 @@ namespace KASHOP.DAL.Repositories
             , bool tracked = false, CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = _context.Set<T>();
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
+           
             if (!tracked)
             {
                 query = query.AsNoTracking();

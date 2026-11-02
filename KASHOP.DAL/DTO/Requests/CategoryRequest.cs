@@ -7,7 +7,7 @@ namespace KASHOP.DAL.DTO.Requests
     public class CategoryRequest
     {
        
-        public string Name { get; set; }=null!;
+        public List<CategoryTranslationRequest> Translations { get; set; } = new();
         public bool Status { get; set; } 
     }
 }

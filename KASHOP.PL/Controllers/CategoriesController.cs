@@ -1,5 +1,6 @@
 ﻿using KASHOP.BLL;
 using KASHOP.DAL.Data;
+using KASHOP.DAL.DTO.Requests;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -24,24 +25,42 @@ namespace KASHOP.PL.Controllers
             var categories = await _categoryService.GetAllAsync(cancellationToken);
             return Ok(categories);
         }
-            
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetbyId(int id)
-        //{
-        //    var category = (await _categoryRepository.GetAsync(cancellationToken)).FirstOrDefault(c => c.Id ==  id);
-        //    if (category == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(category);
-        //}
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create(Category category)
-        //{
-        //    await _categoryService.CreateAsync(category);
-        //    return Ok(category);
-        //}
+        [HttpPost("")]
+        public async Task<IActionResult> Create(CategoryRequest category, CancellationToken cancellationToken = default)
+        {
+            var result = await _categoryService.CreateAsync(category, cancellationToken);
+            if (!result) return BadRequest();
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetbyId(int id, CancellationToken cancellationToken = default)
+        {
+            var category = await _categoryService.GetByIdAsync(id, cancellationToken);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
+        {
+            var result = await _categoryService.DeleteAsync(id, cancellationToken);
+            if (!result) return NotFound();
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CategoryRequest category, CancellationToken cancellationToken = default)
+        {
+            var result = await _categoryService.UpdateAsync(id, category, cancellationToken);
+            if (!result) return NotFound();
+            return Ok();
+        }
+
     }
 
 }
