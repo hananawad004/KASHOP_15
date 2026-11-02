@@ -52,6 +52,28 @@ namespace KASHOP.DAL.Repositories
             }
             return await query.ToListAsync(cancellationToken);
         }
-           
+
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter = null, List<Expression<Func<T, Object>>>? includes = null
+            , bool tracked = false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(filter,cancellationToken);
+        }   
+
     }
 }
