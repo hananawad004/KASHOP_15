@@ -12,6 +12,6 @@ namespace KASHOP.DAL.Models
 
         public List<CategoryTranslation> Translations { get; set; } = new();
 
-
+        public List<Product> Products { get; set; } = new();
     }
 }
