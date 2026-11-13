@@ -1,4 +1,5 @@
 ﻿using KASHOP.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace KASHOP.DAL.Data
 {
-    public class ApplicationDbContext :DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public DbSet<Category> Categories { get; set; }

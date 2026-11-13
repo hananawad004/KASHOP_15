@@ -1,0 +1,14 @@
+﻿using KASHOP.DAL.DTO.Requests;
+using KASHOP.DAL.DTO.Responses;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace KASHOP.BLL.Settings
+{
+    public interface IAuthService
+    {
+        Task<(bool success, List<string> errors)> RegisterAsync(RegisterRequest registerRequest);
+        Task<(bool success, List<string> errors, LoginResponse)> LoginAsync(LoginRequest loginRequest);
+    }
+}
