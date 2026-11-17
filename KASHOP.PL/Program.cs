@@ -1,4 +1,5 @@
 
+using FluentAssertions.Common;
 using KASHOP.BLL;
 using KASHOP.BLL.Settings;
 using KASHOP.DAL.Data;
@@ -7,6 +8,7 @@ using KASHOP.DAL.Repositories;
 using KASHOP.PL.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -52,7 +54,8 @@ namespace KASHOP.PL
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.AllowedForNewUsers = true;
                 options.SignIn.RequireConfirmedEmail = true;
-                
+                options.User.RequireUniqueEmail = true;
+
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             
@@ -85,10 +88,11 @@ namespace KASHOP.PL
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddScoped<BLL.IEmailService, EmailService>();
+            builder.Services.AddTransient<BLL.IEmailService, EmailService>();
 
-            
 
-          
+
 
             MapsterConfig.RegisterMappings();
             var app = builder.Build();

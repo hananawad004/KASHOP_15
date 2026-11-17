@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace KASHOP.BLL.Settings
+namespace KASHOP.BLL
 {
     public class TokenService : ITokenService
     {
@@ -27,9 +27,9 @@ namespace KASHOP.BLL.Settings
 
             var userClaims = new List<Claim>
             {
-                new Claim("Id", user.Id),
-                new Claim("UserName", user.UserName),
-                new Claim("Email", user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim("Roles", string.Join(",", roles)),
             };
             var token = new JwtSecurityToken(

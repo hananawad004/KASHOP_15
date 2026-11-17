@@ -4,11 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KASHOP.BLL.Settings
+namespace KASHOP.BLL
 {
     public interface IAuthService
     {
         Task<(bool success, List<string> errors)> RegisterAsync(RegisterRequest registerRequest);
         Task<(bool success, List<string> errors, LoginResponse)> LoginAsync(LoginRequest loginRequest);
+        Task<(bool success, List<string> errors)> ConfirmEmailAsync(
+        string userId,
+        string token
+    );
     }
 }

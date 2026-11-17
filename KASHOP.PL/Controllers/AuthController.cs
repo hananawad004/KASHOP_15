@@ -1,9 +1,8 @@
 ﻿
-using KASHOP.BLL.Settings;
+using KASHOP.BLL;
 using KASHOP.DAL.DTO.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace KASHOP.PL.Controllers
 {
     [Route("api/[controller]")]
@@ -36,6 +35,19 @@ namespace KASHOP.PL.Controllers
                 return BadRequest(errors);
             }
             return Ok(response);
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
+        {
+            Console.WriteLine($"Received UserId: {userId}");
+            Console.WriteLine($"Received Token: {token}");
+            var (success, errors) = await _authService.ConfirmEmailAsync(userId, token);
+            if (!success)
+            {
+                return BadRequest(errors);
+            }
+            return Ok();
         }
      }
 }
