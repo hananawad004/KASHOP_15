@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KASHOP.DAL.Models
 {
-    public class Product
+    public class Product :AuditTableEntity
     {
         public int Id { get; set; }
         public decimal Price { get; set; }

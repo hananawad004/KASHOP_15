@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KASHOP.DAL.Models
 {
-    public class Category
+    public class Category : AuditTableEntity
     {
         public int Id { get; set; }
    

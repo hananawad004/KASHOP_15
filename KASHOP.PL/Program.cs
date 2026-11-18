@@ -90,7 +90,7 @@ namespace KASHOP.PL
              options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddScoped<BLL.IEmailService, EmailService>();
             builder.Services.AddTransient<BLL.IEmailService, EmailService>();
-
+            builder.Services.AddHttpContextAccessor();
 
 
 
