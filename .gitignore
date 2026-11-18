@@ -1,3 +1,5 @@
 .vs/
 bin/
 obj/
+KASHOP.PL/appsettings.json
+KASHOP.PL/appsettings.Development.json
